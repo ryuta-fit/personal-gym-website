@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     })
 
     // スラッグを生成（重複チェック付き）
-    let slug = generateSlug(generatedPost.title)
+    const slug = generateSlug(generatedPost.title)
     let slugCount = 0
     let finalSlug = slug
 
@@ -118,7 +118,7 @@ export async function GET() {
     }))
 
     return NextResponse.json({ topics })
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to fetch topics' },
       { status: 500 }

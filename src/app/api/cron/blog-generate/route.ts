@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { generateBlogPost, generateSlug, blogPromptTemplates } from '@/lib/anthropic'
 
 // Vercel Cronのセキュリティトークン検証
-function validateCronRequest(request: NextRequest): boolean {
+function validateCronRequest(): boolean {
   const authHeader = headers().get('authorization')
   const cronSecret = process.env.CRON_SECRET
   
@@ -16,10 +16,10 @@ function validateCronRequest(request: NextRequest): boolean {
   return authHeader === `Bearer ${cronSecret}`
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Cron認証の検証（本番環境で必要）
-    if (process.env.NODE_ENV === 'production' && !validateCronRequest(request)) {
+    if (process.env.NODE_ENV === 'production' && !validateCronRequest()) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
     })
 
     // スラッグを生成（重複チェック付き）
-    let slug = generateSlug(generatedPost.title)
+    const slug = generateSlug(generatedPost.title)
     let slugCount = 0
     let finalSlug = slug
 
@@ -151,7 +151,7 @@ export async function POST(request: NextRequest) {
 
     // GETメソッドと同じ処理を実行
     return GET(request)
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to trigger cron job' },
       { status: 500 }
