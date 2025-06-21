@@ -394,7 +394,7 @@ async function main() {
       trainerId: trainers[0].id,
       startTime: new Date(now.getTime() + 24 * 60 * 60 * 1000), // 明日
       endTime: new Date(now.getTime() + 24 * 60 * 60 * 1000 + 60 * 60 * 1000), // 明日+1時間
-      status: 'CONFIRMED',
+      status: 'CONFIRMED' as const,
       notes: 'ベンチプレスの正しいフォームを学びたいです',
     },
     {
@@ -402,7 +402,7 @@ async function main() {
       trainerId: trainers[1].id,
       startTime: new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000), // 明後日
       endTime: new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000 + 60 * 60 * 1000),
-      status: 'PENDING',
+      status: 'PENDING' as const,
       notes: '産後のダイエットプログラムをお願いします',
     },
     {
@@ -410,7 +410,7 @@ async function main() {
       trainerId: trainers[2].id,
       startTime: new Date(now.getTime() - 24 * 60 * 60 * 1000), // 昨日
       endTime: new Date(now.getTime() - 24 * 60 * 60 * 1000 + 60 * 60 * 1000),
-      status: 'COMPLETED',
+      status: 'COMPLETED' as const,
       notes: 'リハビリ目的のトレーニング',
     },
   ]

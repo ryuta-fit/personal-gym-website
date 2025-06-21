@@ -1,11 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { prisma } from '@/lib/prisma'
 import { generateBlogPost, generateSlug, blogPromptTemplates } from '@/lib/anthropic'
 
 // Vercel Cronのセキュリティトークン検証
-function validateCronRequest(): boolean {
-  const authHeader = headers().get('authorization')
+async function validateCronRequest(): Promise<boolean> {
+  const headersList = await headers()
+  const authHeader = headersList.get('authorization')
   const cronSecret = process.env.CRON_SECRET
   
   if (!cronSecret) {
@@ -19,7 +20,7 @@ function validateCronRequest(): boolean {
 export async function GET() {
   try {
     // Cron認証の検証（本番環境で必要）
-    if (process.env.NODE_ENV === 'production' && !validateCronRequest()) {
+    if (process.env.NODE_ENV === 'production' && !(await validateCronRequest())) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -139,7 +140,7 @@ export async function GET() {
 }
 
 // 手動トリガー用のPOSTエンドポイント（開発用）
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     // 開発環境では認証をスキップ
     if (process.env.NODE_ENV === 'production') {
@@ -150,7 +151,7 @@ export async function POST(request: NextRequest) {
     }
 
     // GETメソッドと同じ処理を実行
-    return GET(request)
+    return GET()
   } catch {
     return NextResponse.json(
       { error: 'Failed to trigger cron job' },

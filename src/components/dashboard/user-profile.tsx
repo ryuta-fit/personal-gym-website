@@ -29,9 +29,9 @@ export function UserProfile() {
       {/* Profile Header */}
       <div className="text-center">
         <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          {userProfile.profileImage ? (
+          {userProfile.image ? (
             <Image
-              src={userProfile.profileImage}
+              src={userProfile.image}
               alt="プロフィール画像"
               width={80}
               height={80}

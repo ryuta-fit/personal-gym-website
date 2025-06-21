@@ -5,15 +5,16 @@ import { BlogSidebar } from '@/components/blog/blog-sidebar'
 import { Search, Filter } from 'lucide-react'
 
 interface BlogPageProps {
-  searchParams: {
+  searchParams: Promise<{
     page?: string
     category?: string
     tag?: string
     search?: string
-  }
+  }>
 }
 
-export default function BlogPage({ searchParams }: BlogPageProps) {
+export default async function BlogPage({ searchParams }: BlogPageProps) {
+  const params = await searchParams
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -45,7 +46,7 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
                     type="text"
                     placeholder="記事を検索..."
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    defaultValue={searchParams.search || ''}
+                    defaultValue={params.search || ''}
                   />
                 </div>
                 <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
@@ -55,11 +56,11 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
               </div>
               
               {/* Active Filters */}
-              {(searchParams.category || searchParams.tag) && (
+              {(params.category || params.tag) && (
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {searchParams.category && (
+                  {params.category && (
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      カテゴリ: {searchParams.category}
+                      カテゴリ: {params.category}
                       <Link
                         href="/blog"
                         className="ml-2 text-blue-600 hover:text-blue-800"
@@ -68,9 +69,9 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
                       </Link>
                     </span>
                   )}
-                  {searchParams.tag && (
+                  {params.tag && (
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      タグ: {searchParams.tag}
+                      タグ: {params.tag}
                       <Link
                         href="/blog"
                         className="ml-2 text-green-600 hover:text-green-800"
@@ -86,10 +87,10 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
             {/* Blog Posts */}
             <Suspense fallback={<BlogPostsSkeleton />}>
               <BlogPosts
-                page={parseInt(searchParams.page || '1')}
-                category={searchParams.category}
-                tag={searchParams.tag}
-                search={searchParams.search}
+                page={parseInt(params.page || '1')}
+                category={params.category}
+                tag={params.tag}
+                search={params.search}
               />
             </Suspense>
           </div>
