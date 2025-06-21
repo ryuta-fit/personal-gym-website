@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Gym Website
 
-## Getting Started
+完全なパーソナルジムウェブサイト - Next.js + TypeScript + Prisma + AI
 
-First, run the development server:
+## 🚀 機能
+
+- 🔐 **認証システム** - NextAuthによる管理者・顧客ロール管理
+- 📝 **ブログCMS** - 記事の作成・編集・公開機能
+- 🤖 **AIブログ自動生成** - Claude 3.5 Sonnetによる記事自動生成
+- 📅 **予約システム** - トレーナー予約とカレンダー管理
+- 👥 **顧客管理** - ユーザープロフィールと履歴管理
+- 📧 **メールマガジン** - 購読者管理と配信機能
+- 📊 **管理者ダッシュボード** - 統計情報と一元管理
+- 📱 **レスポンシブデザイン** - モバイル対応
+
+## 🛠️ 技術スタック
+
+- **フレームワーク**: Next.js 15.3 (App Router)
+- **言語**: TypeScript
+- **スタイリング**: Tailwind CSS
+- **データベース**: SQLite (開発) / PostgreSQL (本番推奨)
+- **ORM**: Prisma
+- **認証**: NextAuth.js
+- **AI**: Claude 3.5 Sonnet (Anthropic)
+- **メール**: Nodemailer
+
+## 📋 セットアップ
+
+### 1. 依存関係のインストール
+
+```bash
+npm install
+```
+
+### 2. 環境変数の設定
+
+`.env.example` を `.env` にコピーして、必要な値を設定：
+
+```bash
+cp .env.example .env
+```
+
+必要な環境変数：
+- `DATABASE_URL` - データベース接続URL
+- `NEXTAUTH_URL` - アプリケーションのURL
+- `NEXTAUTH_SECRET` - NextAuth認証用シークレット
+- `ANTHROPIC_API_KEY` - Anthropic APIキー（Claude 3.5 SonnetでのAIブログ生成用）
+
+### 3. データベースのセットアップ
+
+```bash
+# データベースの初期化
+npx prisma db push
+
+# シードデータの投入
+npm run db:seed
+```
+
+### 4. 開発サーバーの起動
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+http://localhost:3000 でアクセス可能
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔑 デモアカウント
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **管理者**: admin@personalgym.com / admin123
+- **顧客**: tanaka@example.com / customer123
 
-## Learn More
+## 🤖 AIブログ自動生成機能
 
-To learn more about Next.js, take a look at the following resources:
+### 手動生成
+管理者ダッシュボードから「AIブログ生成」をクリックして、以下を選択：
+- カテゴリ（トレーニング、栄養学、ライフスタイル、リカバリー）
+- トピック（事前定義またはカスタム）
+- 公開設定
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 自動生成（Vercel Cron）
+`vercel.json` で設定済み：
+- 毎週月・水・金の午前9時に自動実行
+- 週3記事まで自動生成・公開
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### カスタマイズ
+`src/lib/openai.ts` でプロンプトとトピックを編集可能
 
-## Deploy on Vercel
+## 📁 プロジェクト構成
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+src/
+├── app/                # Next.js App Router
+│   ├── admin/         # 管理者ページ
+│   ├── api/           # APIエンドポイント
+│   ├── auth/          # 認証ページ
+│   ├── blog/          # ブログページ
+│   ├── booking/       # 予約ページ
+│   └── dashboard/     # ユーザーダッシュボード
+├── components/        # Reactコンポーネント
+├── lib/              # ユーティリティ関数
+└── types/            # TypeScript型定義
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 デプロイ
+
+### Vercel
+1. GitHubリポジトリをVercelに接続
+2. 環境変数を設定
+3. デプロイ
+
+### その他のプラットフォーム
+- Netlify
+- Railway
+- Render
+
+## 📝 ライセンス
+
+MIT License
+
+## 🤝 貢献
+
+プルリクエストを歓迎します！
+
+---
+
+🤖 Generated with [Claude Code](https://claude.ai/code)

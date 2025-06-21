@@ -6,7 +6,8 @@ import {
   Settings, 
   TrendingUp,
   MessageSquare,
-  Plus
+  Plus,
+  Sparkles
 } from 'lucide-react'
 
 export function QuickActions() {
@@ -31,6 +32,13 @@ export function QuickActions() {
       icon: Plus,
       color: 'bg-purple-500 hover:bg-purple-600',
       description: '新規記事作成'
+    },
+    {
+      name: 'AIブログ生成',
+      href: '/admin/blog/generate',
+      icon: Sparkles,
+      color: 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600',
+      description: 'AIで記事を自動生成'
     },
     {
       name: 'メルマガ配信',
